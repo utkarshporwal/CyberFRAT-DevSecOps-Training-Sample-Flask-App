@@ -1,12 +1,28 @@
 pipeline {
+    enviroment {
+        registry ="utkarsh12/cyberfrat-devsecops"
+        registryCredential="60fd5250-e98d-4695-90ae-6a46a710f230"
+        dockerImage= ''
+    }
     agent any
     
       stages {
         stage('build Docker image') {
           steps {
-             sh 'docker build -t cyberfrat:$BUILD_NUMBER .'
+              script {
+                  dockerImage = docker.build registry + ":$BUILD_NUMBER"
+              }
              }
             }
+          stage('Push to DockerHub'){
+              steps {
+                  script {
+                  docker.withRegistry('',registryCredential ) {
+                      docker.Image.push()
+                  }
+              }
+              }
+          }
           stage('Test Run') {
           steps {
               sh 'docker run -d cyberfrat:$BUILD_NUMBER'
