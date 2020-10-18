@@ -1,5 +1,5 @@
 pipeline {
-    enviroment {
+    environment {
         registry ="utkarsh12/cyberfrat-devsecops"
         registryCredential="60fd5250-e98d-4695-90ae-6a46a710f230"
         dockerImage= ''
